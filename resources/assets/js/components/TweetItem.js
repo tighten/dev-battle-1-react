@@ -1,9 +1,11 @@
 import React from 'react';
 import moment from 'moment';
 import { ListGroupItem } from 'react-bootstrap';
+import ReactEmoji from 'react-emoji';
 
 export default ({ likeTweet, deleteTweet, tweet }) => {
     const favoriteCountStyle = {
+        bottom: '-21px',
         position: 'absolute',
         right: '45px',
     };
@@ -47,9 +49,9 @@ export default ({ likeTweet, deleteTweet, tweet }) => {
                         <small className="pull-right">{ moment(tweet.created_at + "-00:00").fromNow() }</small>
                     </h4>
 
-                    <p>{ tweet.text }</p>
+                    <p>{ ReactEmoji.emojify(tweet.text) }</p>
 
-                    <span style={ favoriteCountStyle }>{ tweet.likes ? tweet.likes : 0 }</span>
+                    <span style={ favoriteCountStyle }>{ tweet.like_count }</span>
                     <i className="ion-android-favorite" onClick={ () => likeTweet(tweet.id) } style={ favoriteButtonStyle } />
                     <i className="ion-trash-a" onClick={ () => deleteTweet(tweet.id) } style={ trashButtonStyle } />
                 </div>

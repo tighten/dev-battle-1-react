@@ -4,6 +4,8 @@ import { FormControl, HelpBlock, Button } from 'react-bootstrap';
 import { bootstrapUtils } from 'react-bootstrap/lib/utils';
 bootstrapUtils.addStyle(HelpBlock, 'custom');
 
+import EmojiPicker from './EmojiPicker';
+
 export default class AddTweet extends Component {
     constructor() {
         super();
@@ -21,6 +23,12 @@ export default class AddTweet extends Component {
         this.props.addTweet(this.state.input);
 
         this.setState({ input: '' });
+    }
+
+    handleEmojiSelect(emoji) {
+        this.setState({
+            input: this.state.input + ' ' + emoji
+        });
     }
 
     helpBlockColor() {
@@ -48,8 +56,9 @@ export default class AddTweet extends Component {
                     type="text"
                     value={ this.state.input }
                     placeholder="Enter text"
-                    onChange={(e) => { this.handleInputChange(e.target.value) }}
-                />
+                    onChange={(e) => { this.handleInputChange(e.target.value) }} />
+
+                <EmojiPicker onEmojiSelect={ emoji => this.handleEmojiSelect(emoji) }/>
 
                 <FormControl.Feedback />
                 <HelpBlock bsStyle="custom">{ 140 - this.state.input.length } characters remaining</HelpBlock>

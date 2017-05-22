@@ -21,16 +21,6 @@ export default class App extends Component {
         this.updateTweets();
     }
 
-    updateTweets() {
-        client.getTweets()
-            .then(response => {
-                this.setState({ tweets: response.data.reverse() });
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }
-
     addTweet(tweet) {
         client.addTweet(tweet)
             .then((response) => {
@@ -42,23 +32,6 @@ export default class App extends Component {
             });
     }
 
-    likeTweet(id) {
-        client.likeTweet(id)
-            .then(() => {
-                const tweets = this.state.tweets.map(tweet => {
-                    if (tweet.id === id) {
-                        // Kind of hacky at the moment because there's no way to retrieve current like count from API
-                        tweet.likes = tweet.likes ? tweet.likes + 1 : 1;
-                    }
-
-                    return tweet;
-                });
-
-                this.setState({ tweets });
-        }).catch((error) => {
-            console.log(error);
-        });    }
-
     deleteTweet(id) {
         client.deleteTweet(id)
             .then(() => {
@@ -66,6 +39,30 @@ export default class App extends Component {
 
                 this.setState({ tweets });
             }).catch((error) => {
+                console.log(error);
+            });
+    }
+
+    likeTweet(id) {
+        client.likeTweet(id)
+            .then(() => {
+                const tweets = this.state.tweets.map(tweet => {
+                    tweet.like_count = tweet.id === id ? tweet.like_count + 1 : tweet.like_count;
+                    return tweet;
+                });
+
+                this.setState({ tweets });
+            }).catch((error) => {
+            console.log(error);
+        });
+    }
+
+    updateTweets() {
+        client.getTweets()
+            .then(response => {
+                this.setState({ tweets: response.data.reverse() });
+            })
+            .catch(error => {
                 console.log(error);
             });
     }
