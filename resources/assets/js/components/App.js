@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import axios from 'axios';
+import client from '../client';
 import { Button } from 'react-bootstrap';
 
 import ComposeTweet from './ComposeTweet';
@@ -18,57 +18,39 @@ export default class App extends Component {
     }
 
     componentDidMount() {
-        axios({
-            method:'get',
-            url:'http://battle-api.tighten.co/api/tweets',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${ DevBattle.auth }`
-            }
-        }).then((response) => {
-            this.setState({ tweets: response.data.reverse() });
-        }).catch((error) => {
-            console.log(error);
-        });
+        this.updateTweets();
+    }
+
+    updateTweets() {
+        client.getTweets()
+            .then(response => {
+                this.setState({ tweets: response.data.reverse() });
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
 
     addTweet(tweet) {
-        axios({
-            method:'post',
-            url:'http://battle-api.tighten.co/api/tweets',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${ DevBattle.auth }`
-            },
-            data: {
-                "author": "Samantha Geitz",
-                "text": tweet,
-                "image": "base 64 encoded image here"
-            }
-        }).then((response) => {
-            const tweets = [response.data, ...this.state.tweets];
+        client.addTweet(tweet)
+            .then((response) => {
+                const tweets = [response.data, ...this.state.tweets];
 
-            this.setState({ tweets, showModal: false });
-        }).catch((error) => {
-            console.log(error);
-        });
+                this.setState({ tweets, showModal: false });
+            }).catch((error) => {
+                console.log(error);
+            });
     }
 
     deleteTweet(id) {
-        axios({
-            method:'delete',
-            url:`http://battle-api.tighten.co/api/tweets/${ id }`,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${ DevBattle.auth }`
-            }
-        }).then(() => {
-            const tweets = this.state.tweets.filter(tweet => tweet.id !== id);
+        client.deleteTweet(id)
+            .then(() => {
+                const tweets = this.state.tweets.filter(tweet => tweet.id !== id);
 
-            this.setState({ tweets });
-        }).catch((error) => {
-            console.log(error);
-        });
+                this.setState({ tweets });
+            }).catch((error) => {
+                console.log(error);
+            });
     }
 
     render() {
@@ -77,6 +59,13 @@ export default class App extends Component {
                 <Button bsStyle="primary" bsSize="large" onClick={ () => { this.setState({ showModal: true }) }}>
                     Compose Tweet <i className="ion-edit" style={{ paddingLeft: '5px' }} />
                 </Button>
+
+                <span className="pull-right">
+                    <Button bsStyle="info" bsSize="large" onClick={ () => { this.updateTweets() }}>
+                    <i className="ion-android-refresh" />
+                </Button>
+
+                </span>
 
                 <ComposeTweet addTweet={ (tweet) => this.addTweet(tweet) }
                               showModal={ this.state.showModal }
