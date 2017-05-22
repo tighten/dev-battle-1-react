@@ -2,14 +2,14 @@ import React from 'react';
 import EmojiPicker from 'react-emoji-picker';
 
 const emojiPickerStyles = {
-    position: 'absolute',
-    left: 0,
-    top: '53px',
     backgroundColor: 'white',
-    width: '100%',
-    padding: '5px 10px',
     border: '1px solid #0074d9',
     borderTop: 'none',
+    left: 0,
+    position: 'absolute',
+    padding: '5px 10px',
+    top: '53px',
+    width: '100%',
     zIndex: '2'
 };
 

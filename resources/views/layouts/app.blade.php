@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Tighten Senior Developer Battle') }}</title>
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
@@ -30,8 +30,20 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        <img src="/images/logo.png" alt="" width="35px" class="logo">
+
+                        {{ config('app.name', 'Tighten Senior Developer Battle') }}
                     </a>
+
+                    <style>
+                        .navbar-brand {
+                            padding: 4px 15px;
+                        }
+
+                        .navbar-brand img {
+                            display: inline;
+                        }
+                    </style>
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
