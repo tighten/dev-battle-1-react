@@ -54,6 +54,23 @@ export default class App extends Component {
         });
     }
 
+    deleteTweet(id) {
+        axios({
+            method:'delete',
+            url:`http://battle-api.tighten.co/api/tweets/${ id }`,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${ DevBattle.auth }`
+            }
+        }).then(() => {
+            const tweets = this.state.tweets.filter(tweet => tweet.id !== id);
+
+            this.setState({ tweets });
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
     render() {
         return (
             <div>
@@ -67,7 +84,7 @@ export default class App extends Component {
 
                 <hr />
 
-                <TweetList tweets={ this.state.tweets } />
+                <TweetList deleteTweet={ (id) => this.deleteTweet(id) } tweets={ this.state.tweets } />
             </div>
         );
     }

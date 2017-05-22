@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { ListGroupItem } from 'react-bootstrap';
 
-export default ({ tweet }) => {
+export default ({ deleteTweet, tweet }) => {
     const trashButtonStyle = {
         bottom: '8px',
         cursor: 'pointer',
@@ -18,7 +18,7 @@ export default ({ tweet }) => {
             </h4>
 
             <p>{ tweet.text }</p>
-            <i className="ion-trash-a" style={ trashButtonStyle } />
+            <i className="ion-trash-a" onClick={ () => deleteTweet(tweet.id) } style={ trashButtonStyle } />
         </ListGroupItem>
     );
 }
