@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 import axios from 'axios';
-import update from 'react-addons-update';
 
 import TweetList from './TweetList';
 import AddTweet from './AddTweet';
@@ -26,7 +25,7 @@ export default class App extends Component {
                 'Authorization': `Bearer ${ DevBattle.auth }`
             }
         }).then((response) => {
-            this.setState({ tweets: response.data });
+            this.setState({ tweets: response.data.reverse() });
         }).catch((error) => {
             console.log(error);
         });
@@ -46,12 +45,9 @@ export default class App extends Component {
                 "image": "base 64 encoded image here"
             }
         }).then((response) => {
-            const tweets = update(this.state.tweets, {
-                 $push: [response.data]
-            });
+            const tweets = [response.data, ...this.state.tweets];
 
             this.setState({ tweets });
-
         }).catch((error) => {
             console.log(error);
         });
