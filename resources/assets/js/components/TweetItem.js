@@ -1,10 +1,20 @@
 import React from 'react';
 import moment from 'moment';
-import { ListGroupItem, Image } from 'react-bootstrap';
+import { ListGroupItem } from 'react-bootstrap';
 
-export default ({ deleteTweet, tweet }) => {
+export default ({ likeTweet, deleteTweet, tweet }) => {
+    const favoriteCountStyle = {
+        position: 'absolute',
+        right: '45px',
+    };
+
+    const favoriteButtonStyle = {
+        cursor: 'pointer',
+        position: 'absolute',
+        right: '30px',
+    };
+
     const trashButtonStyle = {
-        bottom: '8px',
         cursor: 'pointer',
         position: 'absolute',
         right: '14px',
@@ -38,6 +48,9 @@ export default ({ deleteTweet, tweet }) => {
                     </h4>
 
                     <p>{ tweet.text }</p>
+
+                    <span style={ favoriteCountStyle }>{ tweet.likes ? tweet.likes : 0 }</span>
+                    <i className="ion-android-favorite" onClick={ () => likeTweet(tweet.id) } style={ favoriteButtonStyle } />
                     <i className="ion-trash-a" onClick={ () => deleteTweet(tweet.id) } style={ trashButtonStyle } />
                 </div>
             </div>

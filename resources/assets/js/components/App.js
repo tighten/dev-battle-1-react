@@ -42,6 +42,23 @@ export default class App extends Component {
             });
     }
 
+    likeTweet(id) {
+        client.likeTweet(id)
+            .then(() => {
+                const tweets = this.state.tweets.map(tweet => {
+                    if (tweet.id === id) {
+                        // Kind of hacky at the moment because there's no way to retrieve current like count from API
+                        tweet.likes = tweet.likes ? tweet.likes + 1 : 1;
+                    }
+
+                    return tweet;
+                });
+
+                this.setState({ tweets });
+        }).catch((error) => {
+            console.log(error);
+        });    }
+
     deleteTweet(id) {
         client.deleteTweet(id)
             .then(() => {
@@ -73,7 +90,7 @@ export default class App extends Component {
 
                 <hr />
 
-                <TweetList deleteTweet={ (id) => this.deleteTweet(id) } tweets={ this.state.tweets } />
+                <TweetList likeTweet={ (id) => this.likeTweet(id) } deleteTweet={ (id) => this.deleteTweet(id) } tweets={ this.state.tweets } />
             </div>
         );
     }

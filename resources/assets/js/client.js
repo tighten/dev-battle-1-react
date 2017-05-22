@@ -40,6 +40,20 @@ export default {
         });
     },
 
+    likeTweet(id) {
+        return new Promise((resolve, reject) => {
+            axios({
+                method:'post',
+                url:`${ baseUrl }/tweets/${ id }/likes`,
+                headers
+            }).then((response) => {
+                return resolve(response);
+            }).catch((error) => {
+                return reject(error);
+            });
+        });
+    },
+
     deleteTweet(id) {
         return new Promise((resolve, reject) => {
             axios({
