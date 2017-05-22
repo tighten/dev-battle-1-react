@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 import axios from 'axios';
+import { Button } from 'react-bootstrap';
 
+import ComposeTweet from './ComposeTweet';
 import TweetList from './TweetList';
-import AddTweet from './AddTweet';
 
 export default class App extends Component {
     constructor(){
@@ -47,7 +48,7 @@ export default class App extends Component {
         }).then((response) => {
             const tweets = [response.data, ...this.state.tweets];
 
-            this.setState({ tweets });
+            this.setState({ tweets, showModal: false });
         }).catch((error) => {
             console.log(error);
         });
@@ -56,7 +57,13 @@ export default class App extends Component {
     render() {
         return (
             <div>
-                <AddTweet addTweet={ (tweet) => { this.addTweet(tweet) }} />
+                <Button bsStyle="primary" bsSize="large" onClick={ () => { this.setState({ showModal: true }) }}>
+                    Compose Tweet
+                </Button>
+
+                <ComposeTweet addTweet={ (tweet) => this.addTweet(tweet) }
+                              showModal={ this.state.showModal }
+                              close={ () => this.setState({ showModal: false }) } />
 
                 <hr />
 
