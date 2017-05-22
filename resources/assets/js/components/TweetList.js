@@ -1,29 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { ListGroup } from 'react-bootstrap';
+import TweetItem from './TweetItem';
 
-import { ListGroup, ListGroupItem } from 'react-bootstrap';
-import moment from 'moment';
-
-export default class TweetList extends Component {
-    renderTweets() {
-        return this.props.tweets.map((tweet, i) => {
-            return (
-                <ListGroupItem key={ i }>
-                    <h4>
-                        { tweet.author }
-                        <small className="pull-right">{ moment(tweet.created_at).fromNow() }</small>
-                    </h4>
-
-                    <p>{ tweet.text }</p>
-                </ListGroupItem>
-            );
-        });
-    }
-
-    render() {
-        return (
-            <ListGroup>
-                { this.renderTweets() }
-            </ListGroup>
-        );
-    }
+export default ({ tweets }) => {
+    return (
+        <ListGroup>
+            { tweets.map((tweet, i) => { return <TweetItem tweet={ tweet } key={ i } /> }) }
+        </ListGroup>
+    );
 }

@@ -58,7 +58,7 @@ export default class App extends Component {
         return (
             <div>
                 <Button bsStyle="primary" bsSize="large" onClick={ () => { this.setState({ showModal: true }) }}>
-                    Compose Tweet
+                    Compose Tweet <i className="ion-edit" style={{ paddingLeft: '5px' }} />
                 </Button>
 
                 <ComposeTweet addTweet={ (tweet) => this.addTweet(tweet) }

@@ -13,7 +13,7 @@ export default ({ addTweet, close, showModal }) => {
                 <AddTweet addTweet={ addTweet } />
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={this.close}>Close</Button>
+                <Button onClick={() => close()}>Close</Button>
             </Modal.Footer>
         </Modal>
     );
