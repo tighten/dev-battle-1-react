@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
 import { FormControl, HelpBlock, Button } from 'react-bootstrap';
+import { bootstrapUtils } from 'react-bootstrap/lib/utils';
+bootstrapUtils.addStyle(HelpBlock, 'custom');
 
 export default class AddTweet extends Component {
     constructor() {
@@ -21,9 +23,27 @@ export default class AddTweet extends Component {
         this.setState({ input: '' });
     }
 
+    helpBlockColor() {
+        const remaining = 140 - this.state.input.length;
+
+        if (remaining >= 21) {
+            return '#000';
+        } else if (remaining <= 10) {
+            return '#ff0000';
+        }
+
+        return '#8b0000';
+    }
+
     render() {
         return (
             <div>
+                <style type="text/css">{`
+                    .help-block-custom {
+                        color: ${ this.helpBlockColor() };
+                    }
+                `}</style>
+
                 <FormControl
                     type="text"
                     value={ this.state.input }
@@ -32,7 +52,7 @@ export default class AddTweet extends Component {
                 />
 
                 <FormControl.Feedback />
-                <HelpBlock bsClass={ this.state.input.length > 140 ? 'alert-danger' : '' }>{ 140 - this.state.input.length } characters remaining</HelpBlock>
+                <HelpBlock bsStyle="custom">{ 140 - this.state.input.length } characters remaining</HelpBlock>
 
                 <br /><br />
                 <Button bsClass="btn btn-primary" disabled={ ! this.state.input || this.state.input.length > 140 } onClick={ () => { this.handleSubmit() }}>Tweet</Button>
